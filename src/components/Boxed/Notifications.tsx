@@ -96,7 +96,7 @@ const Notifications = ({
       onRefresh={refreshing}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({ item }) => loading ? (
-        <LinearLoader />
+        <LinearLoader key={item.serial} />
       ) : (
         <TouchableOpacity onPress={() => null} key={item.serial} style={{
         }}>

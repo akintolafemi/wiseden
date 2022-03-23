@@ -1,6 +1,6 @@
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import React, { FunctionComponent } from 'react';
-import { StyleSheet, View, Pressable, Image, Text } from 'react-native';
+import { StyleSheet, View, Pressable, Image, RefreshControl } from 'react-native';
 import { Icon as RNEIcon } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -9,6 +9,8 @@ import {Fonts, Colors, GlobalStyles} from '../../commons';
 
 
 //components;
+import GridCard from '../../components/Boxed/GridCard';
+import Requests from '../../components/Boxed/Requests';
 
 //data
 
@@ -51,7 +53,62 @@ const DashboardScreen: FunctionComponent<Props> = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={false}
+            onRefresh={() => null}
+          />
+        }
       >
+        <GridCard items={[{
+          label: 'All\nProperties',
+          value: 50,
+          icon: 'home-outline',
+          route: 'PurchaseOrdersScreen'
+        }, {
+          label: 'All\nTenancies',
+          value: 0,
+          icon: 'home-outline',
+          route: 'DocumentsScreen'
+        }]} navigation={navigation}/>
+        <GridCard items={[{
+          label: 'All\nTenants',
+          value: 50,
+          icon: 'people-outline',
+          route: 'PurchaseOrdersScreen'
+        }, {
+          label: 'Payment\nHistory',
+          value: 0,
+          icon: 'wallet-outline',
+          route: 'DocumentsScreen'
+        }]} navigation={navigation}/>
+        <GridCard items={[{
+          label: 'All\nAgents',
+          value: 50,
+          icon: 'shield-outline',
+          route: 'PurchaseOrdersScreen'
+        }, {
+          label: 'All\nRevenue',
+          value: 50,
+          icon: 'cash-outline',
+          route: 'PurchaseOrdersScreen'
+        }]} navigation={navigation}/>
+        <GridCard items={[{
+          label: 'Overdue\nInvoice',
+          value: 0,
+          icon: 'document-text-outline',
+          route: 'DocumentsScreen'
+        }, {
+          label: 'Current\nInvoice',
+          value: 0,
+          icon: 'document-text-outline',
+          route: 'DocumentsScreen'
+        }]} navigation={navigation}/>
+        <Requests
+        contentContainerStyle={{
+          marginTop: Fonts.h(20)
+        }}
+      />
       </ScrollView>
     </SafeAreaView>
   );
