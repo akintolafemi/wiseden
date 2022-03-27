@@ -2,9 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ProfileResponse, ProfileResponseSave } from '../interfaces/profile';
 import { API } from '../network';
 
-const TOKEN = 'GZI_SESSION_TOKEN';
-const PROFILE = 'GZI_PROFILE';
-const PROFILE_ID = 'GZI_PROFILE_ID';
+const TOKEN = 'WISEDEN_SESSION_TOKEN';
+const PROFILE = 'WISEDEN_PROFILE';
+const PROFILE_ID = 'WISEDEN_PROFILE_ID';
 const PAGE_COUNT = 'PAGE_COUNT';
 
 export const SharedPref = {
@@ -48,10 +48,10 @@ export const SharedPref = {
       return null;
     }
   },
-  storeProfileData: async (userid: number | string) => {
+  storeProfileData: async (user: any) => {
     try {
       // const data = await API.getUser({userId: userid});
-      // return await AsyncStorage.setItem(PROFILE, JSON.stringify(data.data[0]));
+      return await AsyncStorage.setItem(PROFILE, JSON.stringify(user));
     } catch (error) {
       console.log('Store save error', error);
     }

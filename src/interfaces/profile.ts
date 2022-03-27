@@ -23,17 +23,12 @@ export interface ProfileResponseSave {
   profile_image_url: string;
 }
 
-export interface CreateUserRequest {
-  username: string;
-  security: string;
+export interface CreateAccountRequest {
   fullname: string;
+  password: string;
+  usertype: "client" | "agent";
   mobile?: string;
   email?: string;
-  state_of_residence?: string;
-  city?: string;
-  profile_type: string;
-  email_verified: number;
-  mobile_verified: number;
 }
 
 export interface EditUserRequest {

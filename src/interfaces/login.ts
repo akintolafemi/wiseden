@@ -1,23 +1,14 @@
 import {networkResponse} from './network';
 
-export interface LoginRequest {
-  username: string;
-  password: string;
-}
-
-export interface LoginResponse extends networkResponse {
-  token?: string;
-  resetid?: string;
+export interface LoginUsernameRequest {
+  email: string;
+  medium: "mobile";
 }
 
 export interface LoginPasswordRequest {
-  security?: string;
-  token?: string | any;
-}
-
-export interface LoginPasswordResponse extends networkResponse {
-  token?: string | any;
-  userid?: string | any;
+  usernameToken: string;
+  suppliedPassword: string;
+  medium: "mobile";
 }
 
 export interface ResetPasswordRequest {

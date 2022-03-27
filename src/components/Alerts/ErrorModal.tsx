@@ -22,7 +22,6 @@ const ErrorModal = ({
     <AlertModal
       closeOnTouchOutside={false}
       show={showModal}
-      image={image}
       title={title}
       titleStyle={{
         fontSize: Fonts.h(20),

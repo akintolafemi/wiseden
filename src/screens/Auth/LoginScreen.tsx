@@ -4,12 +4,14 @@ import { Button as RNEButton, Input as RNEInput, Icon as RNEIcon } from 'react-n
 import { Modalize } from 'react-native-modalize';
 
 import { RootStackScreenProps } from '../../../types';
-import { Fonts, GlobalStyles, Colors } from '../../commons';
+import { Fonts, GlobalStyles, Colors, SharedPref } from '../../commons';
 
 import { AppLogoOne } from '../../components/AppLogos';
 import OkModal from '../../components/Alerts/OkModal';
 import ErrorModal from '../../components/Alerts/ErrorModal';
 import ModalLabel from '../../components/Labels/ModalLabel';
+
+import { API } from '../../network';
 
 export default function LoginScreen({ navigation }: RootStackScreenProps<'LoginScreen'>) {
   const [logoData, setLogoData] = useState(null);
@@ -27,27 +29,92 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'LoginS
     btnText: 'Create Account',
   });
 
-  const [showOkModal, setShowOkModal] = useState(true);
+  const [showOkModal, setShowOkModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [okMessage, setOkMesage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const modalizeRef = useRef<Modalize>(null);
+  const emailInputRef = useRef(null);
+  const firstNameInputRef = useRef(null);
+  const lastNameInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
+  const mobileInputRef = useRef(null);
 
   function openLoginModal () {
     setLogoData({...logoData, size: 'small', withLabel: false, containerStyle: {position: 'absolute', top: Fonts.h(100), left: Fonts.w(25)}})
     modalizeRef.current?.open();
   }
 
-  function doAction() {
-    switch (formView) {
-      case 'login':
-        navigation.navigate('DrawerTabNavigator');
-        break;
-      
-      case 'register':
-        navigation.navigate('SetupScreen');
-        break;
-    
-      default:
-        break;
+  async function doAction() {
+    if (firstname === "" && formView === "register")
+      firstNameInputRef.current?.focus();
+    else if (lastname === "" && formView === "register")
+      lastNameInputRef.current?.focus();
+    else if (email === "")
+      emailInputRef.current?.focus()
+    else if (password === "" && formView !== "forgotpassword")
+      passwordInputRef.current?.focus()
+    else {
+      try{
+        setLoading(true);
+        switch (formView) {
+          case 'login':
+            const usernameReq = await API.loginUsername({email: email, medium: 'mobile'});
+            if (usernameReq.responseState) {
+              const passwordReq = await API.loginPassword({suppliedPassword: password, usernameToken: usernameReq.loginAttempt.usernameToken, medium: "mobile"});
+              if (passwordReq.responseState) {
+                await SharedPref.storePageCount("1");
+                await SharedPref.storeToken(passwordReq.loginAttempt.passwordToken);
+                await SharedPref.storeProfileData(passwordReq.loginAttempt.loggedUser);
+                setEmail("");
+                setPassword("");
+                navigation.navigate('DrawerTabNavigator');
+              }
+              else {
+                setErrorMessage(passwordReq.reponseMessage);
+                setShowErrorModal(true);
+              }
+            }
+            else {
+              setErrorMessage(usernameReq.reponseMessage);
+              setShowErrorModal(true);
+            }
+            // navigation.navigate('DrawerTabNavigator');
+            break;
+          
+          case 'register':
+            const registerReq = await API.createAccount({
+              fullname: `${firstname} ${lastname}`,
+              password: password,
+              usertype: "client",
+              email: email,
+            });
+            console.log(registerReq);
+            if (registerReq.responseState) {
+              alert(registerReq.message);
+              setFirstname(""); setLastname(""); setMobile(""); setEmail(""); setPassword("");
+              navigation.navigate('SetupScreen');
+            }
+            else {
+              setErrorMessage(registerReq.reponseMessage);
+              setShowErrorModal(true);
+            }
+            break;
+        
+          default:
+            break;
+        }
+        setLoading(false);
+      }
+      catch(e) {
+        setLoading(false);
+        console.log(e);
+        setShowErrorModal(true);
+        setErrorMessage('Unknown error occured');
+      }
     }
   }
 
@@ -123,6 +190,10 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'LoginS
                   onChangeText={text => setFirstname(text)}
                   returnKeyType="next"
                   keyboardType="default"
+                  ref={firstNameInputRef}
+                  onSubmitEditing={(e) => {
+                    lastNameInputRef.current?.focus()
+                  }}
                 />
                 <RNEInput
                   placeholder='Lastname'
@@ -134,6 +205,10 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'LoginS
                   onChangeText={text => setLastname(text)}
                   returnKeyType="next"
                   keyboardType="default"
+                  ref={lastNameInputRef}
+                  onSubmitEditing={(e) => {
+                    mobileInputRef.current?.focus()
+                  }}
                 />
                 <RNEInput
                   placeholder='Mobile Number'
@@ -145,6 +220,10 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'LoginS
                   onChangeText={text => setMobile(text)}
                   returnKeyType="next"
                   keyboardType="phone-pad"
+                  ref={mobileInputRef}
+                  onSubmitEditing={(e) => {
+                    emailInputRef.current?.focus()
+                  }}
                 />
                 </>
               )
@@ -207,6 +286,10 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'LoginS
                   onChangeText={text => setEmail(text)}
                   returnKeyType="next"
                   keyboardType="email-address"
+                  ref={emailInputRef}
+                  onSubmitEditing={(e) => {
+                    passwordInputRef.current?.focus()
+                  }}
                 />
                 <RNEInput
                   placeholder='Password'
@@ -233,6 +316,8 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'LoginS
                       }}
                     />
                   }
+                  ref={passwordInputRef}
+                  onSubmitEditing={formView === 'login' ? doAction : null}
                 />
                 {
                   formView === 'login' ? (
@@ -277,6 +362,7 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'LoginS
             containerStyle={GlobalStyles.buttonContainerStyle}
             buttonStyle={[GlobalStyles.buttonStyle, {}]}
             onPress={doAction}
+            loading={loading}
           />
           {formView !== 'forgotpassword' ?
             <TouchableOpacity onPress={()=>{formView === 'login' ? setFormView('register') : setFormView('login')}}>
@@ -287,6 +373,20 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'LoginS
           : null}
         </View>
       </Modalize>
+      <OkModal
+        message={okMessage}
+        showModal={showOkModal}
+        onConfirm={() => {
+          setShowOkModal(false)
+        }}
+      />
+      <ErrorModal
+        message={errorMessage}
+        showModal={showErrorModal}
+        onConfirm={() => {
+          setShowErrorModal(false);
+        }}
+      />
     </SafeAreaView>
   );
 }

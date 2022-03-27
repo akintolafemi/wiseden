@@ -23,7 +23,7 @@ import {
   Image,
   ImageStyle,
 } from 'react-native';
-import { Fonts } from '../../commons';
+import { Colors, Fonts } from '../../commons';
 import {Icon as RNEIcon} from 'react-native-elements';
 const {height, width} = Dimensions.get('window');
 
@@ -58,7 +58,7 @@ type Props = {
   image?: ImageSourcePropType;
   imageStyle?: StyleProp<ImageStyle>;
   icon?: any;
-  iconStyle?: StyleProp<TextStyle>;
+  iconStyle?: any;
   overlayStyle?: StyleProp<ViewStyle>;
   progressSize?: number;
   progressColor?: string;
@@ -104,18 +104,20 @@ const AlertModal: ForwardRefRenderFunction<alertRef, Props> = (
     messageStyle,
     overlayStyle,
     progressSize,
-    progressColor,
+    progressColor = Colors.colorTwo,
     contentContainerStyle,
     contentStyle,
     actionContainerStyle,
+    icon,
+    iconStyle
   },
   ref,
 ) => {
   const springValue = useRef(new Animated.Value(0.3)).current;
   const [showSelf, setShowSelf] = useState(false);
   const [showState, setShowState] = useState(true);
-  const [icon, setIcon] = useState<any>(null);
-  const [iconStyle, setIconStyle] = useState<any>(null);
+  // const [icon, setIcon] = useState<any>(null);
+  // const [iconStyle, setIconStyle] = useState<any>(null);
   const [messageState, setMessageState] = useState<string | undefined>('');
   const [titleState, setTitleState] = useState<string | undefined>('');
 
@@ -145,9 +147,9 @@ const AlertModal: ForwardRefRenderFunction<alertRef, Props> = (
       setMessageState(data.message);
       setTitleState(data.title);
       if(data.icon)
-        setIcon(data.icon);
+        // setIcon(data.icon);
       if (data.iconStyle)
-        setIconStyle(data.iconStyle);
+        // setIconStyle(data.iconStyle);
       setShowSelf(true);
       // setShowState(true);
       setTimeout(() => {
@@ -297,7 +299,7 @@ const AlertModal: ForwardRefRenderFunction<alertRef, Props> = (
               <ActivityIndicator size={progressSize} color={progressColor} />
             ) : null}
             {image ? <Image style={[imageStyle]} source={image} /> : null}
-            {icon ? <RNEIcon name={icon} iconStyle={iconStyle} tvParallaxProperties /> : null}
+            {icon ? <RNEIcon name={icon} type="ionicon" iconStyle={iconStyle} tvParallaxProperties /> : null}
             {titleState ? (
               <Text
                 style={[

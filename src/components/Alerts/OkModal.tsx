@@ -6,7 +6,7 @@ import AlertModal from './AlertModal';
 const thumbImg = require('../../assets/images/icons/ok-check.png');
 
 const OkModal = ({
-  title = 'Created Successfully!',
+  title = 'Success!',
   message = 'Operation performed completed',
   image = thumbImg,
   showModal,
@@ -22,7 +22,6 @@ const OkModal = ({
     <AlertModal
       closeOnTouchOutside={false}
       show={showModal}
-      image={image}
       title={title}
       titleStyle={{
         fontSize: Fonts.h(20),
