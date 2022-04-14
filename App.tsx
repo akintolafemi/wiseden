@@ -1,9 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
+import { LogBox } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import useCachedResources from './src/hooks/useCachedResources';
 import useColorScheme from './src/hooks/useColorScheme';
 import Navigation from './src/navigation';
+
+LogBox.ignoreAllLogs();
 
 export default function App() {
   const isLoadingComplete = useCachedResources();

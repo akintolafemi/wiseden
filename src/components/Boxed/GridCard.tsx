@@ -9,10 +9,12 @@ const GridCard = ({
     label: 'Purchase\nOrders',
     value: '12',
     icon: 'home-outline',
+    iconcolor: Colors.colorDarkText,
     route: '',
   },{
     label: 'Out for\nDelivery',
     icon: 'home-outline',
+    iconcolor: Colors.colorDarkText,
     iconX: 'list',
     route: '',
   }]
@@ -29,7 +31,7 @@ const GridCard = ({
         {items[0] ? 
           (
             <View style={{
-              height: Fonts.h(160),
+              height: Fonts.h(120),
               marginVertical: Fonts.h(15),
               marginRight: Fonts.w(10),
               shadowOffset: {
@@ -40,23 +42,24 @@ const GridCard = ({
               shadowRadius: Fonts.h(12),
               shadowColor: Colors.colorBlack,
               backgroundColor: Colors.colorWhite,
-              borderRadius: Fonts.h(10)
+              borderRadius: Fonts.h(10),
+              elevation: 10
             }}>
               <TouchableOpacity onPress={() => navigation.navigate(`${items[0].route}`)}>
                 <View
                   style={{
-                    height: Fonts.h(80),
+                    height: Fonts.h(70),
                     borderTopLeftRadius: Fonts.w(10),
                     borderTopRightRadius: Fonts.w(10),
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}
                 >
-                  <RNEIcon name={items[0].icon} type='ionicon' color={Colors.colorDarkText} size={Fonts.h(40)} tvParallaxProperties/>
+                  <RNEIcon name={items[0].icon} type='ionicon' color={items[0].iconcolor ? Colors.colorWhite : Colors.colorDarkText} backgroundColor={items[0].iconcolor} style={{padding: Fonts.h(8), borderRadius: Fonts.h(5)}} size={Fonts.h(25)} tvParallaxProperties/>
                 </View>
                 <View
                   style={{
-                    height: Fonts.h(80),
+                    height: Fonts.h(50),
                     backgroundColor: Colors.colorWhite,
                     borderBottomLeftRadius: Fonts.w(6),
                     borderBottomRightRadius: Fonts.w(6),
@@ -94,7 +97,7 @@ const GridCard = ({
         {items[1] ? 
           (
             <View style={{
-              height: Fonts.h(160),
+              height: Fonts.h(120),
               marginVertical: Fonts.h(15),
               marginRight: Fonts.w(10),
               shadowOffset: {
@@ -105,23 +108,24 @@ const GridCard = ({
               shadowRadius: Fonts.h(12),
               shadowColor: Colors.colorBlack,
               backgroundColor: Colors.colorWhite,
-              borderRadius: Fonts.h(10)
+              borderRadius: Fonts.h(10),
+              elevation: 10
             }}>
               <TouchableOpacity onPress={() => navigation.navigate(`${items[0].route}`)}>
                 <View
                   style={{
-                    height: Fonts.h(80),
+                    height: Fonts.h(70),
                     borderTopLeftRadius: Fonts.w(10),
                     borderTopRightRadius: Fonts.w(10),
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}
                 >
-                  <RNEIcon name={items[1].icon} type='ionicon' color={Colors.colorDarkText} size={Fonts.h(40)} tvParallaxProperties/>
+                  <RNEIcon name={items[1].icon} type='ionicon' color={items[1].iconcolor ? Colors.colorWhite : Colors.colorDarkText} backgroundColor={items[1].iconcolor} style={{padding: Fonts.h(8), borderRadius: Fonts.h(5)}} size={Fonts.h(25)} tvParallaxProperties/>
                 </View>
                 <View
                   style={{
-                    height: Fonts.h(80),
+                    height: Fonts.h(50),
                     backgroundColor: Colors.colorWhite,
                     borderBottomLeftRadius: Fonts.w(6),
                     borderBottomRightRadius: Fonts.w(6),

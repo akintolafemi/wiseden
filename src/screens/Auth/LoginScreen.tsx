@@ -62,26 +62,26 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'LoginS
         setLoading(true);
         switch (formView) {
           case 'login':
-            const usernameReq = await API.loginUsername({email: email, medium: 'mobile'});
-            if (usernameReq.responseState) {
-              const passwordReq = await API.loginPassword({suppliedPassword: password, usernameToken: usernameReq.loginAttempt.usernameToken, medium: "mobile"});
-              if (passwordReq.responseState) {
-                await SharedPref.storePageCount("1");
-                await SharedPref.storeToken(passwordReq.loginAttempt.passwordToken);
-                await SharedPref.storeProfileData(passwordReq.loginAttempt.loggedUser);
-                setEmail("");
-                setPassword("");
+            // const usernameReq = await API.loginUsername({email: email, medium: 'mobile'});
+            // if (usernameReq.responseState) {
+            //   const passwordReq = await API.loginPassword({suppliedPassword: password, usernameToken: usernameReq.loginAttempt.usernameToken, medium: "mobile"});
+            //   if (passwordReq.responseState) {
+            //     await SharedPref.storePageCount("1");
+            //     await SharedPref.storeToken(passwordReq.loginAttempt.passwordToken);
+            //     await SharedPref.storeProfileData(passwordReq.loginAttempt.loggedUser);
+            //     setEmail("");
+            //     setPassword("");
                 navigation.navigate('DrawerTabNavigator');
-              }
-              else {
-                setErrorMessage(passwordReq.reponseMessage);
-                setShowErrorModal(true);
-              }
-            }
-            else {
-              setErrorMessage(usernameReq.reponseMessage);
-              setShowErrorModal(true);
-            }
+            //   }
+            //   else {
+            //     setErrorMessage(passwordReq.reponseMessage);
+            //     setShowErrorModal(true);
+            //   }
+            // }
+            // else {
+            //   setErrorMessage(usernameReq.reponseMessage);
+            //   setShowErrorModal(true);
+            // }
             // navigation.navigate('DrawerTabNavigator');
             break;
           

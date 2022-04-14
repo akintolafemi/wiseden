@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
-import { RootStackParamList } from '../../../types';
+import { CommonScreenParamList } from '../../../types';
 import {Fonts, Colors, GlobalStyles} from '../../commons';
 
 import { API } from '../../network';
@@ -11,7 +11,7 @@ import { API } from '../../network';
 //components
 import Notifications, {NotificationItem} from '../../components/Boxed/Notifications'
 
-type Props = DrawerScreenProps<RootStackParamList, 'NotificationsScreen'>;
+type Props = DrawerScreenProps<CommonScreenParamList, 'NotificationsScreen'>;
 const NotificationsScreen: FunctionComponent<Props> = ({navigation}) => {
 
   const [notificationLoading, setNotificationsLoading] = useState(false);

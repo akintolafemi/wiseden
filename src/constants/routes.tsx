@@ -1,7 +1,8 @@
 import {FunctionComponent} from 'react';
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
-import { DrawerRenderProps, RootStackParamList, DashboardTabParamList } from 'types';
-import { Fonts } from '../commons';
+import { DrawerRenderProps, RootStackParamList, DashboardTabParamList, CommonScreenParamList } from 'types';
+import { Colors, Fonts } from '../commons';
+import {View, Pressable} from 'react-native';
 import { Icon as RNEIcon } from 'react-native-elements';
 
 //screens
@@ -10,16 +11,21 @@ import LoginScreen from '../screens/Auth/LoginScreen';
 import SetupScreen from '../screens/Auth/SetupScreen';
 import DrawerNavigation from '../navigation/DrawerNavigator';
 import NotificationsScreen from '../screens/More/NotificationsScreen';
+import UserPropertiesScreen from '../screens/Properties/UserPropertiesScreen';
+import CreatePropertyScreen from '../screens/Properties/CreatePropertyScreen';
 import { BottomTabNavigator } from '../navigation';
 
 //dashboard screens
 import DashboardScreen from '../screens/Dashboard';
+import LandingHomeScreen from '../screens/Landing';
+import ProfileScreen from '../screens/More/ProfileScreen';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 
 export type RenderProps = {
-  name: keyof RootStackParamList;
+  name: keyof RootStackParamList | keyof CommonScreenParamList;
   component: FunctionComponent<any>;
   options: NativeStackNavigationOptions;
   initialParams: any;
@@ -35,6 +41,13 @@ export type DashboardRenderProps = {
 
 export const RootRoutes: Array<RenderProps> = [
   {
+    name: 'LandingHomeScreen',
+    component: LandingHomeScreen,
+    options: {
+      headerShown: false
+    },
+    initialParams: {}
+  },{
     name: 'LandingScreen',
     component: LandingScreen,
     options: {
@@ -68,6 +81,22 @@ export const RootRoutes: Array<RenderProps> = [
     options: {
       headerShown: true,
       title: 'Notifications'
+    },
+    initialParams: {}
+  },{
+    name: 'UserPropertiesScreen',
+    component: UserPropertiesScreen,
+    options: {
+      headerShown: true,
+      title: 'My Properties',
+    },
+    initialParams: {}
+  },{
+    name: 'CreatePropertyScreen',
+    component: CreatePropertyScreen,
+    options: {
+      headerShown: true,
+      title: 'Add New Property',
     },
     initialParams: {}
   }
@@ -136,11 +165,14 @@ export const DrawerRouteNavigations: Array<DrawerRenderProps> = [
     initialParams: {}
   },{
     name: 'Account',
-    component: BottomTabNavigator,
+    component: ProfileScreen,
     options: {
-      headerShown: false,
+      headerShown: true,
       gestureEnabled: false,
       drawerLabel: 'Account',
+      headerRight: ({}) => (
+        <HeaderRightNoticiation />
+      ),
       drawerIcon: ({focused, color}) => (
         <RNEIcon name="person" type='ionicon' iconStyle={{fontSize: Fonts.h(20)}} color={color} tvParallaxProperties />
       )
@@ -172,3 +204,31 @@ export const DashboardTabRoutes: Array<DashboardRenderProps> = [
     initialParams: {}
   }
 ];
+
+
+const HeaderRightNoticiation = () => {
+  const navigation = useNavigation();
+
+  return (
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <Pressable
+      onPress={() => navigation.navigate('NotificationsScreen')}
+      style={({ pressed }) => ({
+        opacity: pressed ? 0.5 : 1,
+      })}>
+      <RNEIcon
+        type="ionicon"
+        name="notifications"
+        size={25}
+        color={Colors.colorDarkText}
+        style={{ marginRight: 15 }}
+        tvParallaxProperties
+      />
+    </Pressable>
+    {/* <Pressable
+    >
+      <Image source={require('../../assets/images/avatar.png')} />
+    </Pressable> */}
+  </View>
+  )
+}

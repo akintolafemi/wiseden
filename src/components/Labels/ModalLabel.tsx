@@ -4,10 +4,12 @@ import { Image, View, Text, StyleProp, ViewStyle } from 'react-native';
 
 const ModalLabel = ({
   label = 'Modal Label',
-  subtext
+  subtext,
+  labelSize = Fonts.h(26),
 } : {
   label?: string;
   subtext?: string;
+  labelSize?: number;
 }) => {
 
   return (
@@ -17,7 +19,7 @@ const ModalLabel = ({
       <Text style={{
         color: Colors.colorDarkText, 
         fontFamily: Fonts.Roboto_Black,
-        fontSize: Fonts.h(26), 
+        fontSize: labelSize, 
         marginBottom: Fonts.h(5)}}>{label}</Text>
       {subtext ? (<Text style={{color: Colors.colorDarkText, fontWeight: "400", fontSize: Fonts.h(12), lineHeight: Fonts.h(18)}}>{subtext}</Text>) : null}
     </View>

@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Modal: undefined;
   NotFound: undefined;
   LoginScreen: undefined;
+  LandingHomeScreen: undefined;
   LandingScreen: undefined;
   SetupScreen: undefined;
   DrawerTabNavigator: NavigatorScreenParams<DrawerTabParamList> | undefined;
@@ -60,13 +61,18 @@ export type DrawerTabParamList = {
   Settings: undefined;
   Account: undefined;
   PaymentHistory: undefined;
+} & CommonScreenParamList
+
+export type CommonScreenParamList = {
+  NotificationsScreen: undefined;
+  UserPropertiesScreen: undefined;
+  CreatePropertyScreen: undefined;
 }
 
 export type DashboardTabParamList = {
   DashboardScreen: undefined;
   DocumentsScreen: undefined;
-  NotificationsScreen: undefined;
-}
+} & CommonScreenParamList
 
 export type MessageTabParamList = {
 
