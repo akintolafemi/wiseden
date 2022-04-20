@@ -139,7 +139,7 @@ function CustomDrawerContent(props: any) {
             SharedPref.clearUserData();
             props.navigation.reset({
               index: 0,
-              routes: [{ name: 'LoginScreen' }],
+              routes: [{ name: 'LandingHomeScreen' }],
             });
           }}
         />
