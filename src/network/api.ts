@@ -5,7 +5,7 @@ import { CreateAccountRequest, CreateUserResponse, ProfileResponse, EditUserRequ
 
 import {requestClan} from './requests';
 
-const BASE_URL = 'http://68.169.57.98:83/wisedenapi/';
+const BASE_URL = 'http://68.169.57.98:83/wisedenapi/api/';
 const URL_LOGIN_USERNAME = BASE_URL + 'users/login/attempt-username-login';
 const URL_LOGIN_PASSWORD = BASE_URL + 'users/login/attempt-login';
 const URL_REGISTER = BASE_URL + 'users/save';
